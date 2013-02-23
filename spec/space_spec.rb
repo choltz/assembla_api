@@ -3,12 +3,18 @@ require "typhoeus"
 
 describe AssemblaApi::Space do
   before do
-#    AssemblaApi::Config.key    = ""
-#    AssemblaApi::Config.secret = ""
   end
 
-  it "should return all spaces" do
-    # AssemblaApi::Space.all().should eql([])
+  it "should return an error if there's a problem with the api call" do
+
+  end
+
+  it "should return an array of all spaces" do
+    AssemblaApi::Space.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
+
+    spaces = AssemblaApi::Space.all
+    spaces.is_a?(Array).should eq true
+    spaces.first.is_a?(AssemblaApi::Space).should eq true
   end
 
   it "should build an instance of the space object from a hash" do
@@ -39,7 +45,7 @@ describe AssemblaApi::Space do
                    "banner_height"         => nil,
                    "default_showpage"      => "Tickets",
                    "can_join"              => false,
-                   "name"                  => "the_username",
+                   "name"                  => "the_name",
                    "banner"                => nil,
                    "id"                    => "the_id" }
 
