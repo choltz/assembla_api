@@ -1,6 +1,6 @@
 # AssemblaApi
 
-TODO: Write a gem description
+Ruby wrapper for the Assembla API
 
 ## Installation
 
@@ -18,7 +18,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Tell the API your key and secret:
+
+    AssemblaApi::Config.key    = "your key"
+    AssemblaApi::Config.secret = "your secret"
+
+Then Make API calls:
+
+    spaces  = AssemblaApi::Space.all
+    tickets = spaces.first.tickets
 
 ## Contributing
 
