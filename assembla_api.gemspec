@@ -17,5 +17,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_development_dependency "rspec", "~> 2.12.0"
+  gem.add_development_dependency "rspec",    "~> 2.12.0"
+  gem.add_development_dependency "debugger", "~> 1.3.1"
+
+  gem.add_dependency "typhoeus", "~> 0.6.1"
 end
