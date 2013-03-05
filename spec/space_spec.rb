@@ -2,13 +2,6 @@ require "assembla_api/space"
 require "typhoeus"
 
 describe AssemblaApi::Space do
-  before do
-  end
-
-  it "should return an error if there's a problem with the api call" do
-
-  end
-
   it "should return an array of all spaces" do
     AssemblaApi::Space.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
 
