@@ -16,6 +16,21 @@ module AssemblaApi
         response.map{ |result| build_from_hash(result) }
       end
 
+      # Public: Create a new ticket with the arguments specified
+      #
+      # Returns an instance of the ticket object
+      def create(*args)
+        options = args.first
+        raise "space_id is required when creating a ticket" if !options.keys.include?(:space_id)
+
+        body = options.dup
+        body.delete(:space_id)
+        body = {"ticket" => body }
+
+        response = api_request("https://api.assembla.com/v1/spaces/#{options[:space_id]}/tickets.json", :method => :post, :body => body)
+        build_from_hash(response)
+      end
+
       private
 
       # Internal: Create an instance of the ticket object from a hash
@@ -39,10 +54,19 @@ module AssemblaApi
 
       # Internal: parses the response json and returns it as a hash. This exists
       # as a method for stubbing convenience in unit tests
-      def api_request(url)
-        header={ "X-Api-Key" => AssemblaApi::Config.key, "X-Api-Secret" => AssemblaApi::Config.secret}
-        response = Typhoeus.get(url, :headers => header)
-        JSON.parse(response.body)
+      def api_request(url, options={})
+        options = { :method => :get }.update(options)
+        header={ "X-Api-Key" => AssemblaApi::Config.key, "X-Api-Secret" => AssemblaApi::Config.secret, "Content-type" => "application/json" }
+
+        response = Typhoeus::Request.new(url,
+                                         :method  => options[:method],
+                                         :body    =>  options[:body].nil? ? "" : options[:body].to_json,
+                                         :headers => header).run
+
+        results = response.body
+
+        # return nil if there's no data, otherwise parse the JSON
+        results.nil? || (results.is_a?(String) && results.strip == "") ? nil : JSON.parse(results)
       end
 
     end

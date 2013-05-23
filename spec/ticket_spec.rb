@@ -3,11 +3,57 @@ require "typhoeus"
 
 describe AssemblaApi::Ticket do
   before do
+    AssemblaApi::Config.key    = "a734358c063342fb002a"
+    AssemblaApi::Config.secret = "6f49bb6041a8977886cd33fc1e6035bcf459d2cb"
+
     AssemblaApi::Space.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
-    @space = AssemblaApi::Space.all.first
+    @space = AssemblaApi::Space.all.last
   end
 
   it "should return an error if there's a problem with the api call" do
+  end
+
+  it "returns an error if creating a ticket without specifying the space" do
+    expect {
+      AssemblaApi::Ticket.create :summary => "this is a ticket", :description => "This is the ticket description"
+    }.to raise_error("space_id is required when creating a ticket")
+  end
+
+  it "creates a ticket with the specified information" do
+    AssemblaApi::Ticket.stub(:api_request) {
+      { :id            => 1000,
+        :number        => 7,
+        :summary       => "new ticket",
+        :description   => "this is the ticket description",
+        :priority      => 5,
+        :created_on    => "2013-05-18T00:00:00Z",
+        :importance    => 7,
+        :space_id      => "cIPad2W9mr4OkOacwqjQXA",
+        :working_hours => 4,
+        :estimate      => 4 }
+    }
+
+    ticket = AssemblaApi::Ticket.create :space_id             => @space.id,
+                                        :summary              => "new ticket",
+                                        :description          => "this is the ticket description",
+                                        :priority             => 5,
+                                        :created_on           => Date.today - 5,
+                                        :importance           => 5,
+                                        :space_id             => "cIPad2W9mr4OkOacwqjQXA",
+                                        :working_hours        => 4,
+                                        :estimate             => 4
+
+    ticket.is_a?(AssemblaApi::Ticket).should eq true
+    ticket.id.should eq            1000
+    ticket.number.should eq        7
+    ticket.summary.should eq       "new ticket"
+    ticket.description.should eq   "this is the ticket description"
+    ticket.priority.should eq      5
+    ticket.created_on.should eq    "2013-05-18T00:00:00Z"
+    ticket.importance.should eq    7
+    ticket.space_id.should eq      "cIPad2W9mr4OkOacwqjQXA"
+    ticket.working_hours.should eq 4
+    ticket.estimate.should eq      4
 
   end
 
