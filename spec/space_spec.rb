@@ -9,9 +9,16 @@ describe AssemblaApi::Space do
 
   end
 
+  it "has a list of associated tickets" do
+    AssemblaApi::Space.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
+    AssemblaApi::Ticket.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
+
+    spaces = AssemblaApi::Space.all
+    spaces.first.tickets.first.is_a?(AssemblaApi::Ticket).should eq true
+  end
+
   it "should return an array of all spaces" do
     AssemblaApi::Space.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
-
     spaces = AssemblaApi::Space.all
     spaces.is_a?(Array).should eq true
     spaces.first.is_a?(AssemblaApi::Space).should eq true
