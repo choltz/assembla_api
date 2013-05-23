@@ -1,9 +1,16 @@
+require "assembla_api/concerns/api_tools.rb"
 require "assembla_api/config"
 require "json"
 
 module AssemblaApi
   # Public: Wrapper class around the Assembla Space construct
   class Space
+    include AssemblaApi::Concerns::ApiTools
+
+    # Public: Return the tickets associated with this space
+    def tickets
+      AssemblaApi::Ticket.find_by_space_id(self.id)
+    end
 
     #
     # Instance Methods
@@ -44,14 +51,6 @@ module AssemblaApi
         end
 
         space
-      end
-
-      # Internal: parses the response json and returns it as a hash. This exists
-      # as a method for stubbing convenience in unit tests
-      def api_request(url)
-        header={ "X-Api-Key" => AssemblaApi::Config.key, "X-Api-Secret" => AssemblaApi::Config.secret}
-        response = Typhoeus.get(url, :headers => header)
-        JSON.parse(response.body)
       end
 
     end
