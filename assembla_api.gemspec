@@ -1,4 +1,3 @@
-# -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'assembla_api/version'
@@ -18,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_development_dependency "rspec",    "~> 2.12.0"
-  gem.add_development_dependency "debugger", "~> 1.3.1"
+  gem.add_development_dependency "debugger", "~> 1.4.0"
 
   gem.add_dependency "typhoeus", "~> 0.6.1"
 end
