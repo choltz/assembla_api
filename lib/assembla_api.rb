@@ -4,6 +4,7 @@ require "assembla_api/concerns/api_tools.rb"
 require "assembla_api/space"
 require "assembla_api/space"
 require "assembla_api/ticket"
+require "assembla_api/user"
 require "typhoeus"
 
 module AssemblaApi
