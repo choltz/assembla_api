@@ -25,10 +25,23 @@ module AssemblaApi
         options = args.first
         raise "space_id is required when creating a ticket" if !options.keys.include?(:space_id)
 
-        attributes = options.dup
-        attributes.delete(:space_id)
+        response = api_request "https://api.assembla.com/v1/spaces/#{options[:space_id]}/tickets.json", :method => :post, :body =>  {"ticket" => options }
+        build_from_hash(response)
+      end
 
-        response = api_request "https://api.assembla.com/v1/spaces/#{options[:space_id]}/tickets.json", :method => :post, :body =>  {"ticket" => attributes }
+      # Public: Find a ticket by it's id and space
+      #
+      # Returns a ticket instance
+      def find(space_id, id)
+        response = api_request("https://api.assembla.com/v1/spaces/#{space_id}/tickets/id/#{id}")
+        build_from_hash(response)
+      end
+
+      # Public: Find a ticket by it's number and space
+      #
+      # Returns a ticket instance
+      def find_by_number(space_id, number)
+        response = api_request("https://api.assembla.com/v1/spaces/#{space_id}/tickets/#{number}")
         build_from_hash(response)
       end
 

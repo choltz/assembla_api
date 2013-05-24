@@ -10,6 +10,18 @@ describe AssemblaApi::Ticket do
   it "should return an error if there's a problem with the api call" do
   end
 
+  it "returns the ticket based on the id provided" do
+    stub_api_request_returns_ticket
+    ticket = AssemblaApi::Ticket.find(@space.id, 55172833)
+    ticket.class.name.should eq "AssemblaApi::Ticket"
+  end
+
+  it "returns the ticket based on the ticket number provided" do
+    stub_api_request_returns_ticket
+    ticket = AssemblaApi::Ticket.find_by_number(@space.id, 13)
+    ticket.class.name.should eq "AssemblaApi::Ticket"
+  end
+
   it "returns an error if creating a ticket without specifying the space" do
     expect {
       AssemblaApi::Ticket.create :summary => "this is a ticket", :description => "This is the ticket description"
@@ -17,18 +29,7 @@ describe AssemblaApi::Ticket do
   end
 
   it "creates a ticket with the specified information" do
-    AssemblaApi::Ticket.stub(:api_request) {
-      { :id            => 1000,
-        :number        => 7,
-        :summary       => "new ticket",
-        :description   => "this is the ticket description",
-        :priority      => 5,
-        :created_on    => "2013-05-18T00:00:00Z",
-        :importance    => 7,
-        :space_id      => "cIPad2W9mr4OkOacwqjQXA",
-        :working_hours => 4,
-        :estimate      => 4 }
-    }
+    stub_api_request_returns_ticket
 
     ticket = AssemblaApi::Ticket.create :space_id             => @space.id,
                                         :summary              => "new ticket",
@@ -40,7 +41,7 @@ describe AssemblaApi::Ticket do
                                         :working_hours        => 4,
                                         :estimate             => 4
 
-    ticket.is_a?(AssemblaApi::Ticket).should eq true
+    ticket.class.name.should eq "AssemblaApi::Ticket"
     ticket.id.should eq            1000
     ticket.number.should eq        7
     ticket.summary.should eq       "new ticket"
@@ -58,7 +59,7 @@ describe AssemblaApi::Ticket do
     AssemblaApi::Ticket.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
     tickets = AssemblaApi::Ticket.all(@space.id)
     tickets.is_a?(Array).should eq true
-    tickets.first.is_a?(AssemblaApi::Ticket).should eq true
+    tickets.first.class.name.should eq "AssemblaApi::Ticket"
   end
 
   it "should build an instance of the space object from a hash" do
@@ -98,6 +99,21 @@ describe AssemblaApi::Ticket do
     ticket_hash.each do |key, value|
       ticket.send(key).should eq ticket_hash[key]
     end
+  end
+
+  def stub_api_request_returns_ticket
+    AssemblaApi::Ticket.stub(:api_request) {
+      { :id            => 1000,
+        :number        => 7,
+        :summary       => "new ticket",
+        :description   => "this is the ticket description",
+        :priority      => 5,
+        :created_on    => "2013-05-18T00:00:00Z",
+        :importance    => 7,
+        :space_id      => "cIPad2W9mr4OkOacwqjQXA",
+        :working_hours => 4,
+        :estimate      => 4 }
+    }
   end
 
 end
