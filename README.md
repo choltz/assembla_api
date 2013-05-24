@@ -28,6 +28,13 @@ Then Make API calls:
     spaces  = AssemblaApi::Space.all
     tickets = spaces.first.tickets
 
+## Custom Fields
+
+    You can write custom Assembal ticket fields by wrapping them in a hash:
+
+    AssemblaApi::Ticket.create :summary => "New ticket", :space_id => space.id, :custom_fields => { :your_custom_field => "custom field value" }
+
+
 ## Contributing
 
 1. Fork it

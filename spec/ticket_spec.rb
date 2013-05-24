@@ -3,9 +3,6 @@ require "typhoeus"
 
 describe AssemblaApi::Ticket do
   before do
-    AssemblaApi::Config.key    = "a734358c063342fb002a"
-    AssemblaApi::Config.secret = "6f49bb6041a8977886cd33fc1e6035bcf459d2cb"
-
     AssemblaApi::Space.stub(:api_request) { [{ :id => "the_id", :name => "the_name"}] }
     @space = AssemblaApi::Space.all.last
   end

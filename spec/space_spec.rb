@@ -2,6 +2,7 @@ require "assembla_api/space"
 require "typhoeus"
 
 describe AssemblaApi::Space do
+
   before do
   end
 
