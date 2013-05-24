@@ -21,8 +21,13 @@ module AssemblaApi
 
           results = response.body
 
-          # return nil if there's no data, otherwise parse the JSON
-          results.nil? || (results.is_a?(String) && results.strip == "") ? nil : JSON.parse(results)
+          # if there's no data set to nil, otherwise parse the JSON
+          results = ( results.nil? || (results.is_a?(String) && results.strip == "") ? nil : JSON.parse(results) )
+
+          # raise an exception if the API returns an error
+          raise results["error"] if results.is_a?(Hash) && !results["error"].nil?
+
+          results
         end
 
         # Internal: Create an instance of the instance object from a hash
