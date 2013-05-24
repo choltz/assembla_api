@@ -7,9 +7,6 @@ describe AssemblaApi::Ticket do
     @space = AssemblaApi::Space.all.last
   end
 
-  it "should return an error if there's a problem with the api call" do
-  end
-
   it "returns the ticket based on the id provided" do
     stub_api_request_returns_ticket
     ticket = AssemblaApi::Ticket.find(@space.id, 55172833)

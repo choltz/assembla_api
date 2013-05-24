@@ -19,9 +19,8 @@ module AssemblaApi
             :body    =>  options[:body].nil? ? "" : options[:body].to_json,
             :headers => header).run
 
-          results = response.body
-
           # if there's no data set to nil, otherwise parse the JSON
+          results = response.body
           results = ( results.nil? || (results.is_a?(String) && results.strip == "") ? nil : JSON.parse(results) )
 
           # raise an exception if the API returns an error
