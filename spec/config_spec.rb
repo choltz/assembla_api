@@ -1,4 +1,4 @@
-require "assembla_api/config"
+require "assembla_api"
 
 describe AssemblaApi::Config do
   it "should let you set the api key" do

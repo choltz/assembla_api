@@ -1,5 +1,4 @@
-require "assembla_api/user"
-require "typhoeus"
+require "assembla_api"
 
 describe AssemblaApi::User do
   before do

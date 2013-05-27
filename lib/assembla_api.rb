@@ -5,6 +5,7 @@ require "assembla_api/space"
 require "assembla_api/space"
 require "assembla_api/ticket"
 require "assembla_api/user"
+require "assembla_api/comment"
 require "typhoeus"
 
 module AssemblaApi

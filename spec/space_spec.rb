@@ -1,5 +1,4 @@
-require "assembla_api/space"
-require "typhoeus"
+require "assembla_api"
 
 describe AssemblaApi::Space do
 

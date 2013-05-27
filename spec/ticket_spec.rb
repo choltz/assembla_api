@@ -1,5 +1,4 @@
-require "assembla_api/ticket"
-require "typhoeus"
+require "assembla_api"
 
 describe AssemblaApi::Ticket do
   before do
@@ -59,7 +58,7 @@ describe AssemblaApi::Ticket do
     tickets.first.class.name.should eq "AssemblaApi::Ticket"
   end
 
-  it "should build an instance of the space object from a hash" do
+  it "should build an instance of the ticket object from a hash" do
     ticket_hash = {
       :assigned_to_id       => "dlkReOAYir4RxHacwqjQYw",
       :completed_date       => nil,
