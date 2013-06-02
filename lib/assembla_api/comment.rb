@@ -6,8 +6,6 @@ module AssemblaApi
   class Comment
     include AssemblaApi::Concerns::ApiTools
 
-    # attr_accessor :space_id
-
     #
     # Class Methods
     #

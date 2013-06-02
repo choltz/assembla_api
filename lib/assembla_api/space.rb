@@ -12,10 +12,6 @@ module AssemblaApi
       AssemblaApi::Ticket.find_by_space_id(self.id)
     end
 
-    #
-    # Instance Methods
-    #
-
     # Public: returns a list of tickets associated with the space.
     # By default, the first 1000 tickets are returned
     def tickets
